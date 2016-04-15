@@ -30,7 +30,7 @@ class Inici(ListView):
     template_name = 'index.html'
     queryset = Artist.objects.all()
 
-class Artists(ListView, Resposta):
+class Artists(ListView):
     model = Artist
     template_name = 'artists.html'
     queryset = Artist.objects.all()

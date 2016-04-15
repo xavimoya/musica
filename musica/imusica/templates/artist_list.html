@@ -1,0 +1,9 @@
+{% for course in object_list %}
+<p>{{course}}</p>
+{% endfor %}
+
+<p>
+{% for object in my_objects %} 
+    {{ object }}{% if not forloop.last %},{% endif %} 
+{% endfor %}
+</p>

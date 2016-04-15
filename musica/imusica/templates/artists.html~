@@ -1,0 +1,8 @@
+{% for artista in object_list %}
+<p>{{artista.name}}<br>
+{{artista.city}}<br>
+{{artista.country}}<br>
+{{artista.website}}<br>
+{{artista.idNumber}}<br>
+"*****************"</p>
+{% endfor %}
