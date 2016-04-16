@@ -101,6 +101,25 @@ def songxml(request):
     data = serializers.serialize('xml',queryset)
     return HttpResponse(data, content_type='application/xml')
 
+class Companyies(ListView, ConnegResponseMixin):
+    model = Companyia
+    template_name = 'companyies.html'
+    queryset = Companyia.objects.all()
+    context_object_name = 'companyia_list'
+
+def companyiajson(request):
+    model = Companyia
+    queryset = Companyia.objects.all()
+    data = serializers.serialize('json',queryset)
+    return HttpResponse(data, content_type='application/json')
+
+def companyiaxml(request):
+    model = Companyia
+    queryset = Companyia.objects.all()
+    data = serializers.serialize('xml',queryset)
+    return HttpResponse(data, content_type='application/xml')
+
+
 class ArtistDetail(DetailView):
     model = Artists
     template_name = 'artist_detail.html'
