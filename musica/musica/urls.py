@@ -16,21 +16,14 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from imusica.views import *
 from imusica.models import *
+from django.contrib.auth.views import login, logout
 
 urlpatterns = [
     url(r'^$',mainpage),
 
     url(r'^admin/',include(admin.site.urls)),
     url(r'^app/', include('imusica.urls', namespace='imusica')),
-    url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
-    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
-#	url(r'^list/$',ArtistListView),
+    url(r'^accounts/login/$', login, name='login'),
+    url(r'^accounts/logout/$', logout, name = 'logout'),
 
-													#    url(
-													#        r'^your-url/(?P<student_id>\d+)/$',
-													#        CoursesListView.as_view()
-													#    )
-#	url(
-#	r'^llistat/(?P<student_id>\d+)/$'
-#	,ArtistListView.as_view()),
-]													#)
+]

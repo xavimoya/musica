@@ -1,8 +1,0 @@
-
-<h1> MAIN MUSIC </h1>
-<ul>
-
-	<li><a href= "/Artist" > Artistes</a></li>
-	<li><a href= "/Album" > Album</a></li>
-	<li><a href= "/Song" > Song</a></li>
-</ul>

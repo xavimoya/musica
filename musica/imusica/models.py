@@ -7,7 +7,8 @@ class Artist(models.Model):
     city = models.CharField(max_length=50, blank=True, default='City')
     country = models.CharField(max_length=50, blank=True, default='Country')
     website = models.URLField(blank=True)
-    idNumber = models.TextField(null=True)
+    idNumber = models.IntegerField(blank=True, null=True)
+
     #song = models.ForeignKey(Song, null=True)
     #bookmarks = models.ManyToManyField(Bookmark)
 
@@ -23,4 +24,3 @@ class Song(models.Model):
     artista = models.ForeignKey(Artist, null=True)
     album = models.ForeignKey(Album, null=True)
     #bookmarks = models.ManyToManyField(Bookmark)
-

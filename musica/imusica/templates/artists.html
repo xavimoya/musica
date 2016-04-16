@@ -1,9 +1,21 @@
 
 {% for artista in object_list %}
-<p>{{artista.name}}<br>
-{{artista.city}}<br>
-{{artista.country}}<br>
-{{artista.website}}<br>
-{{artista.idNumber}}<br>
+<p>
+<b>Nom: </b> {{artista.name}}<br>
+<b>Ciutat: </b> {{artista.city}}<br>
+<b>Pais: </b> {{artista.country}}<br>
+<b>Pagina web: </b> {{artista.website}}<br>
+<b>Identificador: </b> {{artista.idNumber}}<br>
 ********************</p>
 {% endfor %}
+
+<!--
+{% for course in object_list %}
+<p>{{course}}</p>
+{% endfor %}
+
+<p>
+{% for object in my_objects %}
+    {{ object }}{% if not forloop.last %},{% endif %}
+{% endfor %}
+</p>-->
