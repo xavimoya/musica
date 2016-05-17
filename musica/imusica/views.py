@@ -5,6 +5,13 @@ from django.template import Context, loader
 from django.core import serializers
 from django.views.generic.base import TemplateResponseMixin
 from django.views.generic import ListView, DetailView
+from rest_framework import generics
+from rest_framework.decorators import api_view
+from rest_framework.reverse import reverse
+from rest_framework.response import *
+from serializers import *
+
+
 
 def mainpage(request):
     return HttpResponse("<ul><h2>Hola!</h2>    <p>Hauries de entrar al /app per accedir a l'aplicacio<br>"
@@ -127,3 +134,47 @@ class ArtistDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super(ArtistDetail, self).get_context_data(**kwargs)
         return context
+
+
+### RESTful API views
+
+
+class APICompanyiaList(generics.ListCreateAPIView):
+    model = Companyia
+    queryset = Companyia.objects.all()
+    serializer_class = CompanyiaSerializer
+
+class APICompanyiaDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = Companyia
+    queryset = Companyia.objects.all()
+    serializer_class = CompanyiaSerializer
+
+class APIArtistList(generics.ListCreateAPIView):
+    model = Artist
+    queryset = Artist.objects.all()
+    serializer_class = ArtistSerializer
+
+class APIArtistDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = Artist
+    queryset = Artist.objects.all()
+    serializer_class = ArtistSerializer
+
+class APIAlbumList(generics.ListCreateAPIView):
+    model = Album
+    queryset = Album.objects.all()
+    serializer_class = AlbumSerializer
+
+class APIAlbumDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = Album
+    queryset = Album.objects.all()
+    serializer_class = AlbumSerializer
+
+class APISongList(generics.ListCreateAPIView):
+    model = Song
+    queryset = Song.objects.all()
+    serializer_class = SongSerializer
+
+class APISongDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = Song
+    queryset = Song.objects.all()
+    serializer_class = SongSerializer
