@@ -1,4 +1,7 @@
-<script>
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}<script>
   $(function(){
     $("#id_city").autocomplete({
       source: function(request,	response){
@@ -9,7 +12,7 @@
             featureClass:	"P",
             maxRows: 10,
             name_startsWith: request.term,
-            username:	"demo" // NEED TO CHANGE USERNAME "demo" BY MY USERNAME --> http://www.geonames.org/logi !!!!!!!!!!!!!!!!!!!!!!!!
+            username:	"xavi_bmx"
           },
           success: function(data)	{
             response($.map(data.geonames, function(item)	{
@@ -35,3 +38,12 @@
     });
   });
 </script>
+<form method="post" enctype="multipart/form-data" action="">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input type="submit" value="Submit"/>
+</form>
+
+{% endblock %}

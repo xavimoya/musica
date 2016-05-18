@@ -1,4 +1,4 @@
-from django.shortcuts import HttpResponse, render_to_response
+from django.shortcuts import HttpResponse, render_to_response, get_object_or_404
 from models import *
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import Context, loader
@@ -10,16 +10,26 @@ from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
 from rest_framework.response import *
 from serializers import *
-
+from django.utils.decorators import method_decorator
+from rest_framework import generics, permissions
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.utils import timezone
+from django.core.urlresolvers import reverse
+from django.views.generic.edit import CreateView, UpdateView
 
 
 def mainpage(request):
-    return HttpResponse("<ul><h2>Hola!</h2>    <p>Hauries de entrar al /app per accedir a l'aplicacio<br>"
+    return HttpResponse("<ul><h2>Hola!</h2>    <p>Hauries de entrar a: <br>"
+                            "/app per accedir a l'aplicacio<br>"
                             "/admin per entrar com administrador<br>"
+                            "/app/api per entrar a l'API RESTful<br>"
                             "/accounts/(login|logout) per entrar o sortir<br><br</p></ul>"
                             " <ul><u>Aqui tens els Links:</u></ul>"
                             "<ul><p><a href= 'app' > Aplicacio</a> <br>"
                             "<a href= 'admin' > Administrador</a><br>"
+                            "<a href= 'app/api' > API</a><br>"
                             "<a href= 'accounts/login' > Log in</a><br>"
                             "<a href= 'accounts/logout' > Logout</a><br></p></ul>")
 
@@ -45,6 +55,21 @@ class ConnegResponseMixin(TemplateResponseMixin):
             elif self.kwargs['extension'] == 'xml':
                 return self.render_xml_object_response(objects=objects)
         return super(ConnegResponseMixin, self).render_to_response(context)
+
+class LoginRequiredMixin(object):
+    @method_decorator(login_required())
+    def dispatch(self, *args, **kwargs):
+        return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
+
+class CheckIsOwnerMixin(object):
+    def get_object(self, *args, **kwargs):
+        obj = super(CheckIsOwnerMixin, self).get_object(*args, **kwargs)
+        if not obj.user == self.request.user:
+            raise PermissionDenied
+        return obj
+
+class LoginRequiredCheckIsOwnerUpdateView(LoginRequiredMixin, CheckIsOwnerMixin, UpdateView):
+    template_name = 'form.html'
 
 class Inici(ListView):
     model = Artist
@@ -137,44 +162,61 @@ class ArtistDetail(DetailView):
 
 
 ### RESTful API views
+class IsOwnerOrReadOnly(permissions.IsAuthenticatedOrReadOnly):
+
+    def has_object_permission(self, request, view, obj):
+        # Read permissions are allowed to any request,
+        # so we'll always allow GET, HEAD or OPTIONS requests.
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        # Instance must have an attribute named `owner`.
+        return obj.user == request.user
 
 
 class APICompanyiaList(generics.ListCreateAPIView):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     model = Companyia
     queryset = Companyia.objects.all()
     serializer_class = CompanyiaSerializer
 
 class APICompanyiaDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsOwnerOrReadOnly,)
     model = Companyia
     queryset = Companyia.objects.all()
     serializer_class = CompanyiaSerializer
 
 class APIArtistList(generics.ListCreateAPIView):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     model = Artist
     queryset = Artist.objects.all()
     serializer_class = ArtistSerializer
 
 class APIArtistDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsOwnerOrReadOnly,)
     model = Artist
     queryset = Artist.objects.all()
     serializer_class = ArtistSerializer
 
 class APIAlbumList(generics.ListCreateAPIView):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     model = Album
     queryset = Album.objects.all()
     serializer_class = AlbumSerializer
 
 class APIAlbumDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsOwnerOrReadOnly,)
     model = Album
     queryset = Album.objects.all()
     serializer_class = AlbumSerializer
 
 class APISongList(generics.ListCreateAPIView):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     model = Song
     queryset = Song.objects.all()
     serializer_class = SongSerializer
 
 class APISongDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsOwnerOrReadOnly,)
     model = Song
     queryset = Song.objects.all()
     serializer_class = SongSerializer

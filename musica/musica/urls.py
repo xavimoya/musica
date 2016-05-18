@@ -4,6 +4,8 @@ from django.contrib import admin
 from imusica.views import *
 from imusica.models import *
 from django.contrib.auth.views import login, logout
+from django.views.static import serve
+from django.conf import settings
 
 urlpatterns = [
     url(r'^$',mainpage),
@@ -14,3 +16,8 @@ urlpatterns = [
     url(r'^accounts/logout/$', logout, name = 'logout'),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += [
+        url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT, })
+    ]

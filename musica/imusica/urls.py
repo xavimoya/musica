@@ -1,3 +1,6 @@
+from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse_lazy
+from django.views.generic.base import RedirectView
 from django.conf.urls import include, url, patterns
 from django.contrib import admin
 from views import *
@@ -32,7 +35,7 @@ url(r'^Companyia/$',Companyies.as_view(), name='companyia_list'),
 ### RESTful urls
 
 urlpatterns += [
-        url(r'^api/auth/',
+    url(r'^api/auth/',
         include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/Companyia/$',
         APICompanyiaList.as_view(), name='companyia-list'),
