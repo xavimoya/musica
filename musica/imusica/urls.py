@@ -14,6 +14,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
 
 url(r'^$',Inici.as_view(),),
+url(r'^api/$', IniciApiRest.as_view(),),
 
 
 url(r'^Artist.json/$',artistjson, name='artist_list'),

@@ -76,6 +76,10 @@ class Inici(ListView):
     template_name = 'index.html'
     queryset = Artist.objects.all()
 
+class IniciApiRest(ListView):
+    template_name = 'index2.html'
+    queryset = Artist.objects.all()
+
 class Artists(ListView, ConnegResponseMixin):
     model = Artist
     template_name = 'artists.html'
