@@ -23,10 +23,10 @@ from django.views.generic.edit import CreateView, UpdateView
 
 def mainpage(request):
     return HttpResponse("<ul><h2>Hola!</h2>    <p>Hauries de entrar a: <br>"
-                            "/app per accedir a l'aplicacio<br>"
-                            "/admin per entrar com administrador<br>"
-                            "/app/api per entrar a l'API RESTful<br>"
-                            "/accounts/(login|logout) per entrar o sortir<br><br</p></ul>"
+                            "/app . . . . . . . . . . . . . . . . . . per accedir a l'aplicacio<br>"
+                            "/admin . . . . . . . . . . . . . . . . per entrar com administrador<br>"
+                            "/app/api . . . . . . . . . . . . . . . per entrar a l'API RESTful<br>"
+                            "/accounts/(login|logout) .. . per entrar o sortir<br><br</p></ul>"
                             " <ul><u>Aqui tens els Links:</u></ul>"
                             "<ul><p><a href= 'app' > Aplicacio</a> <br>"
                             "<a href= 'admin' > Administrador</a><br>"
