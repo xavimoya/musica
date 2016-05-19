@@ -3,7 +3,7 @@
 <h1>
     {{ artist.name }}
     {% if user == artist.user %}
-        (<a href="{% url 'imusica:artist_edit' artist.name %}">edit</a>)
+      (<a href="{% url 'imusica:artist_edit' artist.id %}">edit</a>)
     {% endif %}
 </h1>
 <h2>Address:</h2>
@@ -15,7 +15,7 @@
 <h2>
     Songs
     {% if user.is_authenticated %}
-        (<a href="{% url 'imusica:song_create' song.name %}">add</a>)
+    (<a href="{% url 'imusica:song_create' artist.id %}">add</a>)
     {% endif %}
 </h2>
 <ul>
