@@ -16,7 +16,10 @@ urlpatterns = patterns('',
 url(r'^$',Inici.as_view(),),
 url(r'^api/$', IniciApiRest.as_view(),),
 
-
+#List models
+# ex html: /app/Artist
+# ex xml: /app/Artist.xml
+# ex json: /app/Artist.json
 url(r'^Artist.json/$',artistjson, name='artist_list'),
 url(r'^Artist.xml/$',artistxml, name='artist_list'),
 url(r'^Artist/$',Artists.as_view(), name='artist_list'),
@@ -30,6 +33,47 @@ url(r'^Companyia.json/$',companyiajson, name='companyia_list'),
 url(r'^Companyia.xml/$',companyiaxml, name='companyia_list'),
 url(r'^Companyia/$',Companyies.as_view(), name='companyia_list'),
 #
+
+    #Artist details, ex: /app/Artist/1.json
+    url(r'^Artist/(?P<pk>\d+)(\.(?P<extension>(json|xml)))?$',
+        ArtistDetail.as_view(),
+        name='artist_detail'),
+
+    # Create an artist, ex /app/Artist/create
+    url(r'^Artist/create/$',
+        ArtistCreate.as_view(),
+        name='artist_create'),
+
+    # Edit artist details, ex /app/Artist/1/edit
+    url(r'^Artist/(?P<pk>\d+)/edit/$',
+        LoginRequiredCheckIsOwnerUpdateView.as_view(
+            model=Artist,
+            form_class=ArtistForm),
+        name='artist_edit'),
+
+## Songs of Artist
+
+# Artist songs list, ex.: /app/Artist/1/Song.json
+    url(r'^Artist/(?P<pk>\d+)/Song\.(?P<extension>(json|xml))$',
+        SongList.as_view(),
+        name='song_list'),
+
+    # Artist song details, ex.: /app/Artist/1/Song/1.json
+    url(r'^Artist/(?P<pkr>\d+)/Song/(?P<pk>\d+)(\.(?P<extension>(json|xml)))?$',
+        SongDetail.as_view(),
+        name='song_detail'),
+
+    # Create a artist song, ex: /app/Artist/1/Song/create/
+    url(r'^Artist/(?P<pk>\d+)/Song/create/$',
+        SongCreate.as_view(),
+        name='song_create'),
+
+    # Edit restaurant song details, ex: /app/Artist/1/Song/1/edit/
+    url(r'^Artist/(?P<pkr>\d+)/Song/(?P<pk>\d+)/edit/$',
+        LoginRequiredCheckIsOwnerUpdateView.as_view(
+            model=Song,
+            form_class=SongForm),
+        name='song_edit'),
 
 )
 

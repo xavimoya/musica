@@ -10,6 +10,7 @@ from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
 from rest_framework.response import *
 from serializers import *
+from forms import *
 from django.utils.decorators import method_decorator
 from rest_framework import generics, permissions
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -156,13 +157,47 @@ def companyiaxml(request):
     return HttpResponse(data, content_type='application/xml')
 
 
-class ArtistDetail(DetailView):
-    model = Artists
+
+### Detail - Create //Artist
+class ArtistDetail(DetailView, ConnegResponseMixin):
+    model = Artist
     template_name = 'artist_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super(ArtistDetail, self).get_context_data(**kwargs)
         return context
+
+class ArtistCreate(LoginRequiredMixin, CreateView):
+    model = Artist
+    template_name = 'form.html'
+    form_class = ArtistForm
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(ArtistCreate, self).form_valid(form)
+
+### List - Detail - Create //Song of an Artist
+
+class SongList(ListView, ConnegResponseMixin):
+    model = Song
+
+    def get_queryset(self):
+        return Song.objects.filter(artist=self.kwargs['pk'])
+
+class SongDetail(DetailView, ConnegResponseMixin):
+    model = Song
+    template_name = 'song_detail.html'
+
+class SongCreate(LoginRequiredMixin, CreateView):
+    model = Song
+    template_name = 'form.html'
+    form_class = SongForm
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        #form.instance.artista = Artist.objects.get(id=self.kwargs['pk'])
+        return super(SongCreate, self).form_valid(form)
+
 
 
 ### RESTful API views

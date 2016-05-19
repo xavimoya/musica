@@ -3,6 +3,11 @@
 
 {% block content %}<script>
   $(function(){
+    $.getJSON("{% static "countries.json" %}", {}, function (countries) {
+                $("#id_country").autocomplete({
+                    source: countries
+                });
+            });
     $("#id_city").autocomplete({
       source: function(request,	response){
         $.ajax({
@@ -20,7 +25,7 @@
                 label: item.name + (item.adminName1	?	", " +
                     item.adminName1	:	"")	+	", " + item.countryName,
                 value: item.name,
-                stateOrProvince: item.adminName1,
+                city: item.adminName1,
                 countryName: item.countryName
               }
             }));
@@ -30,9 +35,8 @@
       minLength: 2,
       select:	function(event,ui) {
         if	(ui.item)	{
-          $("#id_stateOrProvince").val(ui.item.stateOrProvince);
+          $("#id_city").val(ui.item.city);
           $("#id_country").val(ui.item.countryName);
-          $("#id_zipCode").val("");
         }
       }
     });

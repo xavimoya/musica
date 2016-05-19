@@ -23,6 +23,12 @@ class Artist(models.Model):
     user = models.ForeignKey(User, default=1)
     date = models.DateField(default=date.today)
 
+    def __unicode__(self):
+        return u"%s" % self.name
+    def get_absolute_url(self):
+        return reverse('imusica:artist_detail', kwargs={'pk': self.pk})
+
+
 class Album(models.Model):
     name = models.CharField(max_length=50)
     idNumber = models.TextField(null=True)
@@ -39,3 +45,8 @@ class Song(models.Model):
     album = models.ForeignKey(Album, null=True)
     user = models.ForeignKey(User, default=1)
     date = models.DateField(default=date.today)
+
+    def __unicode__(self):
+        return u"%s" % self.name
+    def get_absolute_url(self):
+        return reverse('imusica:song_detail', kwargs={'pkr': self.artist.pk, 'pk': self.pk})
