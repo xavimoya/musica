@@ -9,4 +9,4 @@ class ArtistForm(ModelForm):
 class SongForm(ModelForm):
     class Meta:
         model = Song
-        exclude = ('user', 'date', 'artista')
+        exclude = ('user', 'date')
