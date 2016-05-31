@@ -165,6 +165,7 @@ class ArtistDetail(DetailView, ConnegResponseMixin):
 
     def get_context_data(self, **kwargs):
         context = super(ArtistDetail, self).get_context_data(**kwargs)
+        context['RATING_CHOICES'] = ArtistReview.RATING_CHOICES
         return context
 
 class ArtistCreate(LoginRequiredMixin, CreateView):
@@ -197,6 +198,17 @@ class SongCreate(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         #form.instance.artista = Artist.objects.get(id=self.kwargs['pk'])
         return super(SongCreate, self).form_valid(form)
+
+@login_required()
+def review(request, pk):
+    artist = get_object_or_404(Artist, pk=pk)
+    review = ArtistReview(
+        rating=request.POST['rating'],
+        comment=request.POST['comment'],
+        user=request.user,
+        artist=artist)
+    review.save()
+    return HttpResponseRedirect(reverse('imusica:artist_detail', args=(artist.id,)))
 
 
 
@@ -259,3 +271,14 @@ class APISongDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Song
     queryset = Song.objects.all()
     serializer_class = SongSerializer
+
+class APIArtistReviewList(generics.ListCreateAPIView):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    model = ArtistReview
+    queryset = ArtistReview.objects.all()
+    serializer_class = ArtistReviewSerializer
+
+class APIArtistReviewDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsOwnerOrReadOnly,)
+    model = ArtistReview
+    serializer_class = ArtistReviewSerializer

@@ -68,12 +68,17 @@ url(r'^Companyia/$',Companyies.as_view(), name='companyia_list'),
         SongCreate.as_view(),
         name='song_create'),
 
-    # Edit restaurant song details, ex: /app/Artist/1/Song/1/edit/
+    # Edit an artist song details, ex: /app/Artist/1/Song/1/edit/
     url(r'^Artist/(?P<pkr>\d+)/Song/(?P<pk>\d+)/edit/$',
         LoginRequiredCheckIsOwnerUpdateView.as_view(
             model=Song,
             form_class=SongForm),
         name='song_edit'),
+    # Create an artist review using function, ex: /app/Artist/1/reviews/create/
+    url(r'^Artist/(?P<pk>\d+)/reviews/create/$',
+        review,
+        name='review_create'),
+
 
 )
 
@@ -98,6 +103,10 @@ urlpatterns += [
         APISongList.as_view(), name='song-list'),
     url(r'^api/Song/(?P<pk>\d+)/$',
         APISongDetail.as_view(), name='song-detail'),
+    url(r'^api/Artistreviews/$',
+        APIArtistReviewList.as_view(), name='artistreview-list'),
+    url(r'^api/Artistreviews/(?P<pk>\d+)/$',
+        APIArtistReviewDetail.as_view(), name='artistreview-detail'),
 
 ]
 

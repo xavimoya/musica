@@ -27,6 +27,10 @@ class Artist(models.Model):
         return u"%s" % self.name
     def get_absolute_url(self):
         return reverse('imusica:artist_detail', kwargs={'pk': self.pk})
+    def averageRating(self):
+        ratingSum = sum([float(review.rating) for review in self.artistreview_set.all()])
+        reviewCount = self.artistreview_set.count()
+        return ratingSum / reviewCount
 
 
 class Album(models.Model):
@@ -50,3 +54,14 @@ class Song(models.Model):
         return u"%s" % self.name
     def get_absolute_url(self):
         return reverse('imusica:song_detail', kwargs={'pkr': self.artist.pk, 'pk': self.pk})
+
+
+class Review(models.Model):
+    RATING_CHOICES = ((1, 'one'), (2, 'two'), (3, 'three'), (4, 'four'), (5, 'five'))
+    rating = models.PositiveSmallIntegerField('Rating (stars)', blank=False, default=3, choices=RATING_CHOICES)
+    comment = models.TextField(blank=True, null=True)
+    user = models.ForeignKey(User, default=1)
+    date = models.DateField(default=date.today)
+
+class ArtistReview(Review):
+    artist = models.ForeignKey(Artist)
