@@ -1,14 +1,20 @@
 {% extends "base.html" %}
+{% block title %} iMusica - {{ artist.name}}{% endblock %}
 {% block content %}
+
+<span vocab="http://schema.org/" typeof="Musica">
+
 <h1>
-    {{ artist.name }}
+
+    <span property="name"> {{ artist.name }} </span>
     {% if user == artist.user %}
       (<a href="{% url 'imusica:artist_edit' artist.id %}">edit</a>)
     {% endif %}
 </h1>
 <h2>Address:</h2>
 <p>
-    {{ artist.city }}, {{ artist.country }} <br/>
+  <span property="address"> {{ artist.city }}, {{ artist.country }} </span>
+     <br/>
 
 </p>
 
@@ -20,7 +26,7 @@
 </h2>
 <ul>
     {% for song in song.artist %}
-        <li><a href="{% url 'imusica:song_detail' artist.name song.name  g%}">
+        <li><a href="{% url 'imusica:song_detail' artist.name song.name  %}">
             {{ song.name }}</a></li>
     {% empty %}<li>Sorry, no songs for this artist yet.</li>
     {% endfor %}
@@ -30,5 +36,6 @@
 
 {% endblock %}
 {% block footer %}
-    Created by {{ artist.user }} on {{ artist.date }}
+    Created by <span property="author"> {{ artist.user }} </span> on
+    <span property="date" content="{{ artist.date|date:'Y-m-d' }}"> {{ artist.date }} </span>
 {% endblock %}
