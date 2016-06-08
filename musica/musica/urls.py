@@ -15,6 +15,8 @@ urlpatterns = [
     url(r'^accounts/login/$', login, name='login'),
     url(r'^accounts/logout/$', logout, name = 'logout'),
 
+    #url(r'^accounts/profile/$', login, name='login'),
+    url(r'^accounts/profile/$', include('imusica.urls', namespace='imusica')),
 ]
 
 if settings.DEBUG:
