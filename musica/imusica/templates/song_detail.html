@@ -10,9 +10,9 @@
  	{% endif %}
 </h1>	
 
-<p><span property="info">{{ song.artista}}, {{ song.album}}</p>
-<p>{{ song.style }}</p>
-<p>{{ song.texte }}</p></span>
+<p><span property="info">{{ song.artista}}, {{ song.album}}</br></br>
+{{ song.style }}</br></br>
+{{ song.texte }}</p></span>
 
 <h3>Add Review</h3>
 <form action="{% url 'imusica:review_create' song.id %}" method="post">
