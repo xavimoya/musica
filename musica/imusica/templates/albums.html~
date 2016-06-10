@@ -1,7 +1,3 @@
-{% extends "base.html" %}
-{% block title %} iMusica - {{ artist.name}}{% endblock %}
-
-{% block content %}
 {% for album in object_list %}
 <p>
 <b>Nom: </b> {{album.name}}<br>
@@ -11,4 +7,3 @@
 
 ********************</p>
 {% endfor %}
-{% endblock %}

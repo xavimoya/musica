@@ -1,7 +1,4 @@
-{% extends "base.html" %}
-{% block title %} iMusica - {{ artist.name}}{% endblock %}
 
-{% block content %}
 {% for artista in object_list %}
 <p>
 <a href= "{{artista.id}}" > Enllaç a l'artista </a> <br>
@@ -13,4 +10,3 @@
 <b>Companyia: </b> {{artista.companyia.name}}<br>
 ********************</p>
 {% endfor %}
-{% endblock %}

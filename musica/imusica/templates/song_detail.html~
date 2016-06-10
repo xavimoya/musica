@@ -6,7 +6,7 @@
 	<h1>	
 		<span property="name">{{ song.name }}</span>
 		{% if user == song.user %}
-			(<a	href="{% url 'imusica:song_edit' song.artista.id song.id %}">edit</a>)	
+			(<a	href="{% url 'myrestaurants:restaurant_edit' restaurant.id %}">edit</a>)	
   		{% endif %}
   	</h1>	
 

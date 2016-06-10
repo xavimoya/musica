@@ -11,7 +11,7 @@
 
 <div id="title">
 	{% block title %}
-        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        {% if error_message %}<p><strong>{{ error_message in title }}</strong></p>{% endif %}
 	{% endblock %}
 </div>
 

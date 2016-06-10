@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from models import *
+from models import Artist, Song
 
 class ArtistForm(ModelForm):
     class Meta:
@@ -9,4 +9,4 @@ class ArtistForm(ModelForm):
 class SongForm(ModelForm):
     class Meta:
         model = Song
-        exclude = ('user', 'date')
+        exclude = ('user', 'date', 'artista')

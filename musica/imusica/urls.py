@@ -32,9 +32,10 @@ url(r'^Song/$',Songs.as_view(), name='song_list'),
 url(r'^Companyia.json/$',companyiajson, name='companyia_list'),
 url(r'^Companyia.xml/$',companyiaxml, name='companyia_list'),
 url(r'^Companyia/$',Companyies.as_view(), name='companyia_list'),
-#
 
-    #Artist details, ex: /app/Artist/1.json
+#	DETALLS de cada artista
+
+    # Artist details, ex: /app/Artist/1.json
     url(r'^Artist/(?P<pk>\d+)(\.(?P<extension>(json|xml)))?$',
         ArtistDetail.as_view(),
         name='artist_detail'),
@@ -51,9 +52,33 @@ url(r'^Companyia/$',Companyies.as_view(), name='companyia_list'),
             form_class=ArtistForm),
         name='artist_edit'),
 
+#	DETALLS de cada canso
+
+	# SONGS details, ex.: /app/Song/1.json
+    url(r'^Song/(?P<pk>\d+)(\.(?P<extension>(json|xml)))$',
+        SongDetail.as_view(),
+        name='song_detail'),
+
+    # Create a song, ex: /app/Song/create/
+    url(r'^Song/create/$',
+        SongCreate.as_view(),
+        name='song_create'),
+
+    # Edit an artist song details, ex: /app/Artist/1/Song/1/edit/
+    url(r'^Artist/(?P<pkr>\d+)/Song/(?P<pk>\d+)/edit/$',
+        LoginRequiredCheckIsOwnerUpdateView.as_view(
+            model=Song,
+            form_class=SongForm),
+        name='song_edit'),
+    # Create an artist review using function, ex: /app/Artist/1/reviews/create/
+    url(r'^Artist/(?P<pk>\d+)/reviews/create/$',
+        review,
+        name='review_create'),
+        
+        
 ## Songs of Artist
 
-# Artist songs list, ex.: /app/Artist/1/Song.json
+	# Artist songs list, ex.: /app/Artist/1/Song.json
     url(r'^Artist/(?P<pk>\d+)/Song\.(?P<extension>(json|xml))$',
         SongList.as_view(),
         name='song_list'),
