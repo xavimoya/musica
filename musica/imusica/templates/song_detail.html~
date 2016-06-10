@@ -1,29 +1,36 @@
 {% extends "base.html" %}
 {% block title %}MyMusic ­‐ {{ song.name }}{%	endblock %}
+
 {% block content %}
+<span vocab="http://schema.org/" typeof="Musica">	
+<h1>	
+	<span property="name">{{ song.name }}</span>
+	{% if user == song.user %}
+		(<a	href="{% url 'imusica:song_edit' song.artista.id song.id %}">edit</a>)	
+ 	{% endif %}
+</h1>	
 
-<span vocab="http://schema.org/" typeof="Restaurant">	
-	<h1>	
-		<span property="name">{{ song.name }}</span>
-		{% if user == song.user %}
-			(<a	href="{% url 'myrestaurants:restaurant_edit' restaurant.id %}">edit</a>)	
-  		{% endif %}
-  	</h1>	
+<p><span property="info">{{ song.artista}}, {<span property="album">{ song.album}</span>}</p>
+<p>{<span property="style">{ song.style }</span>}</p>
+<p>{<span property="text">{ song.texte }</span>}</p></span>
 
-<h1>
-    {{ song.name }}
-    {% if user == song.user %}
-    (<a href="{% url 'imusica:song_edit' song.artista.id song.id %}">edit</a>)
-    {% endif %}
-</h1>
-<p>{{ song.artista}}, {{ song.album}}</p>
-<p>{{ song.style }}</p>
-<p>{{ song.texte }}</p>
-
+<h3>Add Review</h3>
+<form action="{% url 'imusica:review_create' song.id %}" method="post">
+    {% csrf_token %}
+    Message: <textarea name="comment" id="comment" rows="4"></textarea>
+    <p>Rating:</p>
+    <p>{% for rate in RATING_CHOICES %}
+    <input type="radio" name="rating" id="rating{{ forloop.counter }}" value="{{ rate.1 }}" />
+    <label for="choice{{ forloop.counter }}">{{ rate.1 }} star{{ rate.0|pluralize }}</label>
+    <br/>{% endfor %}
+    </p>
+    <input type="submit" value="Review" />
+</form>
 
 
 {% endblock %}
 
 {% block footer %}
-    Created by {{ song.user }} on {{ song.date }}
+    Created by <span property="author"> {{ song.user }} </span> on
+    <span property="date" content="{{ song.date|date:'Y-m-d' }}"> {{ song.date }} </span>
 {% endblock %}

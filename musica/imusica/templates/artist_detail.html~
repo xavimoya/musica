@@ -22,7 +22,7 @@
     {% endif %}
 </h2>
 <ul>
-    {% for song in song.artist %}
+    {% for song in artist.song.all %}
         <li><a href="{% url 'imusica:song_detail' artist.name song.name  %}">
             {{ song.name }}</a></li>
     {% empty %}<li>Sorry, no songs for this artist yet.</li>
